@@ -1,7 +1,7 @@
 // This is a collection of filesystem functions.
 // Files and directories can be read, written, manipulated.
 // This collection will be updated eventially.
-package main
+package filesystem
 
 import (
 	"bufio"
