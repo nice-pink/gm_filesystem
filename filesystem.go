@@ -357,6 +357,11 @@ func DirExists(path string) bool {
 	return true
 }
 
+func CreateDir(path string) error {
+	// create dir
+	return os.MkdirAll(path, os.ModePerm)
+}
+
 func CopyDir(source string, dest string, printError bool, failIfExists bool) (err error) {
 	// Copy entire director. Define if should fail, if the dest dir already exists.
 
