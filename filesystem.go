@@ -78,15 +78,17 @@ func AppendToFile(filepath string, text string, addNewLine bool) (err error) {
 	return err
 }
 
-func RemoveFromFile(filepath string, remove string) (err error) {
+func RemoveFromFile(filepath string, remove string) (success bool, err error) {
 	// Remove string from file.
 
 	// get started
 	file, err := os.OpenFile(filepath, os.O_RDWR, 0644)
 	if err != nil {
 		fmt.Println(err)
-		return err
+		return false, err
 	}
+
+	found := false
 
 	scanner := bufio.NewScanner(file)
 	var bs []byte
@@ -98,14 +100,16 @@ func RemoveFromFile(filepath string, remove string) (err error) {
 		if text != remove {
 			_, err := buf.WriteString(text + "\n")
 			if err != nil {
-				return err
+				return false, err
 			}
+		} else {
+			found = true
 		}
 	}
 	file.Truncate(0)
 	file.Seek(0, 0)
 	buf.WriteTo(file)
-	return nil
+	return found, nil
 }
 
 // delete
