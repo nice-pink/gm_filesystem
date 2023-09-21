@@ -78,6 +78,44 @@ func AppendToFile(filepath string, text string, addNewLine bool) (err error) {
 	return err
 }
 
+func AppendToFileAfter(filepath string, append string, after string) (success bool, err error) {
+	// Remove string from file.
+
+	// get started
+	file, err := os.OpenFile(filepath, os.O_RDWR, 0644)
+	if err != nil {
+		fmt.Println(err)
+		return false, err
+	}
+
+	found := false
+
+	scanner := bufio.NewScanner(file)
+	var bs []byte
+	buf := bytes.NewBuffer(bs)
+
+	var text string
+	for scanner.Scan() {
+		text = scanner.Text()
+		if text != after {
+			_, err := buf.WriteString(text + "\n")
+			if err != nil {
+				return false, err
+			}
+		} else {
+			found = true
+			_, err := buf.WriteString(text + "\n" + append + "\n")
+			if err != nil {
+				return false, err
+			}
+		}
+	}
+	file.Truncate(0)
+	file.Seek(0, 0)
+	buf.WriteTo(file)
+	return found, nil
+}
+
 func RemoveFromFile(filepath string, remove string) (success bool, err error) {
 	// Remove string from file.
 
