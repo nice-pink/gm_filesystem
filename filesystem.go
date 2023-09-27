@@ -11,6 +11,7 @@ import (
 	"io"
 	"os"
 	"regexp"
+	"strconv"
 	"strings"
 )
 
@@ -374,6 +375,7 @@ func GetTail(filepath string, lines int) string {
 			found += 1
 			// found lines end - x
 			if found >= lines {
+				fmt.Println("Found line " + strconv.Itoa(found))
 				break
 			}
 			// get next last line
@@ -386,6 +388,9 @@ func GetTail(filepath string, lines int) string {
 			break
 		}
 	}
+
+	fmt.Println("Full line: " + line)
+
 	return line
 }
 
